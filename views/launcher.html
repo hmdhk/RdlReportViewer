@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="/lib/fontawesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="/lib/ui-select-master/dist/select.css" rel="stylesheet" />
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/lib/bootstrap-modal-popover/bootstrap-modal-popover.js"></script>
+    
+    <script src="/lib/angularjs/angular.js"></script>
+    <script src="/lib/requirejs-bower/require.js"></script>
+    <script src="/lib/underscore/underscore.js"></script>
+    <script src="/lib/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
+    <script src="/lib/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="/lib/ADE/ade.js"></script>
+    <script src="/lib/ui-select-master/dist/select.js"></script>
+
+    <script>
+        require.config({
+            baseUrl: "/"
+        });
+        require(['RdlReportViewer/RdlReportViewer'],
+            function () {
+                angular.bootstrap('body', ['rdlReportViewer']);
+            });
+
+    </script>
+</head>
+<body class="ng-cloak">
+    <div data-ui-view=""></div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+mklink /d "dist\lib" "..\..\SpaBoilerplate_webclient\dist\lib"
