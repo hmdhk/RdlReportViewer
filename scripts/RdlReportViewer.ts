@@ -1,9 +1,12 @@
+/// <reference path="rdlreportviewer/reportviewer/chartitemdirective.ts" />
+/// <reference path="rdlreportviewer/reportviewer/tableitemdirective.ts" />
 /// <reference path="rdlreportviewer/rdlchartdirective.ts" />
 /// <reference path="rdlreportviewer/rdlparamselectdirective.ts" />
 /// <reference path="rdlreportviewer/rdlreportviewerdirective.ts" />
 /// <reference path="rdlreportviewer/rdltablixdirective.ts" />
 /// <reference path="rdlreportviewer/reportingservice.ts" />
 /// <reference path="rdlreportviewer/reportviewercontroller.ts" />
+/// <reference path="rdlreportviewer/reportviewer/reportviewerdirective.ts" />
 module RdlReportViewer {
     var rdlReportViewer = angular.module('rdlReportViewer', ['ui.router']);
     rdlReportViewer.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
@@ -45,4 +48,7 @@ module RdlReportViewer {
     rdlReportViewer.directive('rdlTablix', rdlTablixDirective);
     rdlReportViewer.directive('rdlChart', rdlChartDirective);
     rdlReportViewer.directive('rdlParamSelect', rdlParamSelectDirective);
+    rdlReportViewer.directive('rvReportViewer', Directives.reportViewerDirective);
+    rdlReportViewer.directive('rvTableItem', Directives.tableItemDirective);
+    rdlReportViewer.directive('rvChartItem', Directives.chartItemDirective);
 }

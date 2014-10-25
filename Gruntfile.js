@@ -53,7 +53,7 @@ module.exports = function (grunt) {
                 //reference: "./references.ts",
                 out: 'dist/RdlReportViewer/RdlReportViewer.js',
                 options: {
-                    target: 'es3',
+                    target: 'es5',
                     module: 'commonjs',
                     removeComments: true
                 },

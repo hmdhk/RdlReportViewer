@@ -59,6 +59,19 @@
     <TypeScriptCompile Include="scripts\RdlReportViewer\RdlTablixDirective.ts" />
     <TypeScriptCompile Include="scripts\RdlReportViewer\ReportingService.ts" />
     <TypeScriptCompile Include="scripts\RdlReportViewer\ReportViewerController.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ReportViewer\ChartItemDirective.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ReportViewer\ReportViewerDirective.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ReportViewer\TableItemDirective.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\IChart.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\IItem.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\ILayout.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\IReport.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\ITable.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\rdl\RdlChart.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\rdl\RdlItem.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\rdl\RdlLayout.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\rdl\RdlReport.ts" />
+    <TypeScriptCompile Include="scripts\RdlReportViewer\ViewModel\rdl\RdlTablix.ts" />
     <TypeScriptCompile Include="scripts\references.ts" />
     <TypeScriptCompile Include="scripts\RdlReportViewer.ts" />
   </ItemGroup>
