@@ -21,6 +21,14 @@
                             $compile(iEl)(scope);
                         }
 
+                        scope.parameters = {};
+                        var paramTemplate = $interpolate('<div rv-{{type}}-parameter="{{name}}"></div>');
+                        _.forEach(report.parameters, (param: IParameter) => {
+                            var iEl = angular.element(paramTemplate({ type: param.type, name: "parameters['" + param.name + "']" }));
+                            scope.parameters[param.name] = param;
+                            element.append(iEl);
+                            $compile(iEl)(scope);
+                        });
                         _.forEach(report.layout, (l: any) => {
                             addItem(report.items[l.name]);
                         });

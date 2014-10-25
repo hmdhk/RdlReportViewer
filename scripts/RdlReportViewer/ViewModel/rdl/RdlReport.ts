@@ -23,6 +23,7 @@
             }
             return d.promise;
         }
+        public parameters: IParameter[];
 
         private getItem(item: any, type: string) {
             var i;
@@ -70,6 +71,13 @@
                 this.layout.push({ name: item.name, col: 0, row: k });
             });
 
+            this.parameters = _.map(_(_(rdlReport).navigate('ReportParameters.ReportParameter')).checkArray()
+                , (param) => {
+                    if (!angular.isUndefined(param['ValidValues'])) {
+                        return new RdlSelectParameter(param);
+                    }
+                    return new RdlSelectParameter(param);
+                });
         }
 
     }

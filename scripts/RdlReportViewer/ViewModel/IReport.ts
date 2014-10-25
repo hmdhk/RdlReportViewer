@@ -3,5 +3,6 @@
         items: { [name: string]: IItem };
         getItemData(name: string);
         layout: any;
+        parameters: IParameter[];
     }
 }
