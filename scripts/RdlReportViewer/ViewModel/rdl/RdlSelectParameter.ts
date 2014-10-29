@@ -7,7 +7,7 @@
         public allowEmpty: boolean;
         public label: string;
         public name: string;
-
+        public value: any[];
         private parameter: any;
         constructor(parameter: any) {
             this.type = "select";
@@ -16,11 +16,13 @@
                 (pv) => {
                     return { value: pv['Value'], label: pv['Label'] };
                 });
-            this.defaultValues = _(_(parameter).navigate("DefaultValues.Values.Value")).checkArray();
+            this.defaultValues = _(_(parameter).navigate("DefaultValue.Values.Value")).checkArray();
+            this.value = this.defaultValues;
             this.allowEmpty = parameter['AllowBlank'];
             this.multiple = parameter['MultiValue'];
             this.label = parameter['Prompt'];
             this.name = parameter['@Name'];
+            
         }
 
     }

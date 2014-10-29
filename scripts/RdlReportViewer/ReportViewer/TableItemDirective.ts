@@ -32,7 +32,7 @@
 
                 scope.tableData = [];
                 $compile(tableElement)(scope);
-                getData();
+                
                 scope.$on('rv.refereshData', () => {
                     getData();
                 });

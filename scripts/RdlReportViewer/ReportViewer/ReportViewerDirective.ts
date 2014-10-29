@@ -11,6 +11,23 @@
                             return;
                         }
                         var report: IReport = scope.report;
+
+                        scope.parameters = {};
+                        var paramTemplate = $interpolate('<div rv-{{type}}-parameter="{{name}}"></div>');
+
+                        _.forEach(report.parameters, (param: IParameter) => {
+                            var iEl = angular.element(paramTemplate({ type: param.type, name: "parameters['" + param.name + "']" }));
+                            scope.parameters[param.name] = param;
+                            element.append(iEl);
+                            $compile(iEl)(scope);
+                        });
+                        element.append($compile('<br/><button class="btn btn-primary" ng-click="refereshData()">Referesh</button>')(scope));
+                        scope.refereshData = () => {
+                            report.getReportData()
+                                .then(() => {
+                                    scope.$broadcast('rv.refereshData');
+                                });
+                        };
                         var itemTemplate = $interpolate('<div rv-{{type}}-item="{{name}}"></div>');
 
                         function addItem(item: IItem) {
@@ -21,14 +38,6 @@
                             $compile(iEl)(scope);
                         }
 
-                        scope.parameters = {};
-                        var paramTemplate = $interpolate('<div rv-{{type}}-parameter="{{name}}"></div>');
-                        _.forEach(report.parameters, (param: IParameter) => {
-                            var iEl = angular.element(paramTemplate({ type: param.type, name: "parameters['" + param.name + "']" }));
-                            scope.parameters[param.name] = param;
-                            element.append(iEl);
-                            $compile(iEl)(scope);
-                        });
                         _.forEach(report.layout, (l: any) => {
                             addItem(report.items[l.name]);
                         });

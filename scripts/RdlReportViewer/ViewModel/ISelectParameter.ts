@@ -5,5 +5,6 @@
         multiple: boolean;
         allowEmpty: boolean;
         label: string;
+        value: any[];
     }
 }

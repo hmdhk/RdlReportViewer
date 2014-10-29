@@ -27,7 +27,7 @@
                         });
                 }
 
-                getData();
+                
                 scope.$on('rv.refereshData', () => {
                     getData();
                 });

@@ -49,7 +49,7 @@ module RdlReportViewer.Rdl {
                 var seriesNames = this._seriesNames;
                 var categoryNames = this._categoryNames;
                 angular.forEach(seriesNames, (seriesName) => {
-                    var seriesGroup = _(data).navigate(seriesName + '_Collection.' + seriesName);
+                    var seriesGroup = _(_(data).navigate(seriesName + '_Collection.' + seriesName)).checkArray();
                     angular.forEach(seriesGroup, (sg) => {
                         var series = { name: sg['@Label'], data: [] };
                         angular.forEach(categoryNames, (catName) => {

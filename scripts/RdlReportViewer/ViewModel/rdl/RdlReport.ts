@@ -10,14 +10,26 @@
             return this._items;
         }
         private _data: any;
+
+        public getReportData(): ng.IPromise<any> {
+            var params = {};
+            _.forEach(this.parameters, (p: IParameter) => {
+                params[p.name] = p.value;
+            });
+            return this.$http.get("/api/RdlReportViewer/GetReportData", { params: params })
+                .then((response) => {
+                    this._data = response.data["Report"];
+                    return this._data;
+                });
+        }
+
         public getItemData(name: string): ng.IPromise<any> {
             var d = this.$q.defer();
             if (_.isUndefined(this._data)) {
-                this.$http.get("/api/RdlReportViewer/GetReportData")
-                    .then((response) => {
-                        this._data = response.data["Report"];
-                        d.resolve(this._data[name]);
-                    });
+                this.getReportData().then((data) => {
+                    
+                    d.resolve(this._data[name]);
+                });
             } else {
                 d.resolve(this._data[name]);
             }

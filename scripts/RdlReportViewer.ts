@@ -26,7 +26,7 @@ module RdlReportViewer {
             var keys = path.split('.');
             var value = obj;
             for (var i = 0, l = keys.length; i < l; i++) {
-                if (typeof value === 'undefined') {
+                if (typeof value === 'undefined' || value == null) {
                     return value;
                 }
                 value = value[keys[i]];
