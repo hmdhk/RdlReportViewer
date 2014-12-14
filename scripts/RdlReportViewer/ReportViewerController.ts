@@ -5,7 +5,7 @@
             $scope.reportPath = "/rdlreports/test";
             reportingService.getReportDefinition($scope.reportPath).then((response: any) => {
                 $scope.reportDef = response.data;
-                $scope.report = new Rdl.RdlReport(response.data['Report'], $q, $http);
+                $scope.report = new ReportViewer.Rdl.RdlReport(response.data['Report'], $q, $http);
             }, () => { });
 
 

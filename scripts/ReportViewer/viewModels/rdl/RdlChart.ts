@@ -1,5 +1,5 @@
 ﻿/// <reference path="rdlitem.ts" />
-module RdlReportViewer.Rdl {
+module ReportViewer.Rdl {
     export class RdlChart extends RdlItem implements IChart {//implements ITable {
         private chart: any;
 

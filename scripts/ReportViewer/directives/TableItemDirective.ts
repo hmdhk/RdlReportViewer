@@ -1,4 +1,4 @@
-﻿module RdlReportViewer.Directives {
+﻿module ReportViewer.Directives {
     export var tableItemDirective = ['$interpolate', '$compile', ($interpolate, $compile) => {
         return {
             require: '^rvReportViewer',

@@ -1,4 +1,4 @@
-﻿module RdlReportViewer.Rdl {
+﻿module ReportViewer.Rdl {
     export class RdlTablix extends RdlItem implements ITable {
         private tablix: any;
 

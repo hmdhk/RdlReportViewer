@@ -1,4 +1,4 @@
-﻿module RdlReportViewer {
+﻿module ReportViewer {
     export interface IParameter {
         type: string;
         name: string;

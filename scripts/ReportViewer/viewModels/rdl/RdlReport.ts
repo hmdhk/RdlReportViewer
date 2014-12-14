@@ -1,4 +1,4 @@
-﻿module RdlReportViewer.Rdl {
+﻿module ReportViewer.Rdl {
     export class RdlReport implements IReport {
         private report: any;
         private _items: { [name: string]: IItem }

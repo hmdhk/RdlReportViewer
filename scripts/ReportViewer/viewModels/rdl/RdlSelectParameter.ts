@@ -1,4 +1,4 @@
-﻿module RdlReportViewer.Rdl {
+﻿module ReportViewer.Rdl {
     export class RdlSelectParameter implements ISelectParameter {
         public type: string;
         public validValues: { value: any; label: string }[];

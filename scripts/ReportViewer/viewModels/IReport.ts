@@ -1,4 +1,4 @@
-﻿module RdlReportViewer {
+﻿module ReportViewer {
     export interface IReport {
         items: { [name: string]: IItem };
         getReportData();

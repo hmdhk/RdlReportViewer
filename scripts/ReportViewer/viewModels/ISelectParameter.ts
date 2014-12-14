@@ -1,4 +1,4 @@
-﻿module RdlReportViewer {
+﻿module ReportViewer {
     export interface ISelectParameter extends IParameter {
         validValues: { value: any; label: string }[];
         defaultValues: { value: any; label: string }[];

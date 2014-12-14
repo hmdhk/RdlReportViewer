@@ -1,4 +1,4 @@
-﻿module RdlReportViewer.Directives {
+﻿module ReportViewer.Directives {
     export var reportViewerDirective = ['$parse', '$compile', '$interpolate',
         ($parse: ng.IParseService, $compile: ng.ICompileService, $interpolate: ng.IInterpolateService) => {
             return {

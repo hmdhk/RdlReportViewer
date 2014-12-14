@@ -1,4 +1,4 @@
-﻿module RdlReportViewer {
+﻿module ReportViewer {
     export interface ILayout {
         columnCount: number;
     }

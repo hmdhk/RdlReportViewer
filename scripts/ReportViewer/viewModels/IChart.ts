@@ -1,4 +1,4 @@
-﻿module RdlReportViewer {
+﻿module ReportViewer {
     export interface IChart extends IItem {
         height: number;
         categoryNames: string;

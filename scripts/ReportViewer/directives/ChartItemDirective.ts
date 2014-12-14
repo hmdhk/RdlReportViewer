@@ -1,4 +1,4 @@
-﻿module RdlReportViewer.Directives {
+﻿module ReportViewer.Directives {
     export var chartItemDirective = [() => {
         return {
             require: '^rvReportViewer',
