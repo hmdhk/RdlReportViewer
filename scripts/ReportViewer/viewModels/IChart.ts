@@ -3,5 +3,6 @@
         height: number;
         categoryNames: string;
         seriesNames: string;
+        data: any;
     }
 }

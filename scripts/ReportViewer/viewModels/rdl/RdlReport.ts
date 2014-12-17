@@ -4,38 +4,28 @@
         private _items: { [name: string]: IItem }
         private $q: ng.IQService;
         private $http: ng.IHttpService;
+        private _data: { [name: string]: any };
+        private dataChangeHandlers: Array<(data: any) => void>;
+
+        public parameters: IParameter[];
         public layout: any;
+        public get data(): any {
+            return this._data;
+        }
+        public set data(value: any) {
+            this._data = value;
+            _.forEach(this.dataChangeHandlers, (h) => {
+                h(value);
+            });
+        }
 
         public get items(): { [name: string]: IItem } {
             return this._items;
         }
-        private _data: any;
 
-        public getReportData(): ng.IPromise<any> {
-            var params = {};
-            _.forEach(this.parameters, (p: IParameter) => {
-                params[p.name] = p.value;
-            });
-            return this.$http.get("/api/RdlReportViewer/GetReportData", { params: params })
-                .then((response) => {
-                    this._data = response.data["Report"];
-                    return this._data;
-                });
+        public onDataChange(handler) {
+            this.dataChangeHandlers.push(handler);
         }
-
-        public getItemData(name: string): ng.IPromise<any> {
-            var d = this.$q.defer();
-            if (_.isUndefined(this._data)) {
-                this.getReportData().then((data) => {
-                    
-                    d.resolve(this._data[name]);
-                });
-            } else {
-                d.resolve(this._data[name]);
-            }
-            return d.promise;
-        }
-        public parameters: IParameter[];
 
         private getItem(item: any, type: string) {
             var i;
@@ -59,6 +49,9 @@
             var items = _(this.report).navigate('Body.ReportItems');
             this._items = {};
             this.layout = new RdlLayout(this);
+
+            this.data = null;
+            this.dataChangeHandlers = [];
 
             _.forEach(items, (i, k: string) => {
                 if (_.isArray(i)) {

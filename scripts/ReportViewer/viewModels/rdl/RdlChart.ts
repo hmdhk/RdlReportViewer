@@ -2,6 +2,7 @@
 module ReportViewer.Rdl {
     export class RdlChart extends RdlItem implements IChart {//implements ITable {
         private chart: any;
+        private _data: any;
 
         public get type() {
             return "chart";
@@ -40,29 +41,39 @@ module ReportViewer.Rdl {
             } else {
                 this._categoryNames.push(chartCategories['Group']['@Name']);
             }
-
+            report.onDataChange((data) => {
+                this._data = this.createChartData();
+            });
         }
 
-        public getData(): ng.IPromise<any> {
-            return this.report.getItemData(this.name).then((data) => {
-                var res = [];
-                var seriesNames = this._seriesNames;
-                var categoryNames = this._categoryNames;
-                angular.forEach(seriesNames, (seriesName) => {
-                    var seriesGroup = _(_(data).navigate(seriesName + '_Collection.' + seriesName)).checkArray();
-                    angular.forEach(seriesGroup, (sg) => {
-                        var series = { name: sg['@Label'], data: [] };
-                        angular.forEach(categoryNames, (catName) => {
-                            var catGroup = _(sg).navigate(catName + '_Collection.' + catName);
-                            angular.forEach(catGroup, (d) => {
-                                series.data.push({ name: d['@Label'], x: d['@Label'], y: Number(d['Value']['@Y']) });
-                            });
+        public get data(): any {
+            if (this._data == null) {
+                this._data = this.createChartData();
+            }
+            return this._data;
+        }
+        private createChartData(): any {
+            if (this.report.data == null)
+                return null;
+            var data = this.report.data[this.name];
+
+            var res = [];
+            var seriesNames = this._seriesNames;
+            var categoryNames = this._categoryNames;
+            angular.forEach(seriesNames, (seriesName) => {
+                var seriesGroup = _(_(data).navigate(seriesName + '_Collection.' + seriesName)).checkArray();
+                angular.forEach(seriesGroup, (sg) => {
+                    var series = { name: sg['@Label'], data: [] };
+                    angular.forEach(categoryNames, (catName) => {
+                        var catGroup = _(sg).navigate(catName + '_Collection.' + catName);
+                        angular.forEach(catGroup, (d) => {
+                            series.data.push({ name: d['@Label'], x: d['@Label'], y: Number(d['Value']['@Y']) });
                         });
-                        res.push(series);
                     });
+                    res.push(series);
                 });
-                return res;
             });
+            return res;
         }
 
         public get height(): number {

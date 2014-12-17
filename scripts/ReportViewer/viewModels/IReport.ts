@@ -1,8 +1,8 @@
 ﻿module ReportViewer {
     export interface IReport {
         items: { [name: string]: IItem };
-        getReportData();
-        getItemData(name: string);
+        data: { [name: string]: any };
+        onDataChange(handler: (data: any) => void);
         layout: any;
         parameters: IParameter[];
     }

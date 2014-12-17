@@ -21,13 +21,6 @@
                             element.append(iEl);
                             $compile(iEl)(scope);
                         });
-                        element.append($compile('<br/><button class="btn btn-primary" ng-click="refereshData()">Referesh</button>')(scope));
-                        scope.refereshData = () => {
-                            report.getReportData()
-                                .then(() => {
-                                    scope.$broadcast('rv.refereshData');
-                                });
-                        };
                         var itemTemplate = $interpolate('<div rv-{{type}}-item="{{name}}"></div>');
 
                         function addItem(item: IItem) {

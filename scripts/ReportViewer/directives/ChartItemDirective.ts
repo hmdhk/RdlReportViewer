@@ -8,26 +8,27 @@
 
                 element.height(chart.height + 'cm');
 
+
+                scope.$watch(() => {
+                    return chart.data;
+                }, getData);
                 function getData() {
-                    chart.getData()
-                        .then((data) => {
-                            var chartModel = {
-                                title: null,
-                                series: [],
-                                credits: {
-                                    enabled: false
-                                },
-                                xAxis: {
-                                    //should infer this from the chart model
-                                    type: "category"
-                                }
-                            };
-                            chartModel.series = data;
-                            element.highcharts(chartModel);
-                        });
+                    var chartModel = {
+                        title: null,
+                        series: [],
+                        credits: {
+                            enabled: false
+                        },
+                        xAxis: {
+                            //should infer this from the chart model
+                            type: "category"
+                        }
+                    };
+                    chartModel.series = chart.data;
+                    element.highcharts(chartModel);
                 }
 
-                
+
                 scope.$on('rv.refereshData', () => {
                     getData();
                 });

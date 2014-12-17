@@ -15,10 +15,10 @@
             return this._rowBindings;
         }
 
-        public getData(): ng.IPromise<any> {
-            return this.report.getItemData(this.name).then((data) => {
-                return data['Detail_Collection']['Detail'];
-            });
+        public get data(): any {
+            if (this.report.data == null)
+                return null;
+            return this.report.data[this.name]['Detail_Collection']['Detail'];
         }
 
         constructor(tablix: any, report: IReport) {

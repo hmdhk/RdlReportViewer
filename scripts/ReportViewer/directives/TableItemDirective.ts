@@ -32,15 +32,13 @@
 
                 scope.tableData = [];
                 $compile(tableElement)(scope);
-                
+
                 scope.$on('rv.refereshData', () => {
                     getData();
                 });
-
+                scope.$watch(() => { return table.data; }, getData);
                 function getData() {
-                    table.getData().then((data) => {
-                        scope.tableData = data;
-                    });
+                    scope.tableData = table.data;
                 }
 
 
