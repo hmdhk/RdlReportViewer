@@ -1,15 +1,18 @@
 ﻿module RdlReportViewer {
     export class ReportingService {
 
-        private $http: ng.IHttpService;
-        public getReportData(reportPath: string): ng.IPromise<any> {
-            return this.$http.get("/api/RdlReportViewer/GetReportData");
+
+        private urlPrefix = "/api/RdlReportViewer/";
+        public getReportData(reportPath: string, params: any): ng.IPromise<any> {
+            return this.$http.get(this.urlPrefix + "GetReportData", { params: angular.extend({ reportPath: reportPath }, params) });
         }
         public getReportDefinition(reportPath: string): ng.IPromise<any> {
-            return this.$http.get("/api/RdlReportViewer/GetReportDefinition");
+            return this.$http.get(this.urlPrefix + "GetReportDefinition", { params: { reportPath: reportPath } });
         }
-        constructor($http) {
-            this.$http = $http;
+        public getReports(): ng.IPromise<any> {
+            return this.$http.get(this.urlPrefix + "GetReports");
+        }
+        constructor(private $http: ng.IHttpService) {
         }
     }
     ReportingService.$inject = ['$http'];

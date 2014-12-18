@@ -89,6 +89,7 @@
     <Content Include="Gruntfile.js" />
     <Content Include="views\launcher.html" />
     <Content Include="views\RdlReportViewer.html" />
+    <Content Include="views\RdlReportViewer\Reports.html" />
     <Content Include="views\RdlReportViewer\ReportViewer.html" />
   </ItemGroup>
   <ItemGroup />

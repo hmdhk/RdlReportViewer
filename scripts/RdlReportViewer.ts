@@ -14,9 +14,18 @@ module RdlReportViewer {
             controller: [($scope) => { }]
         }).state('rdlreportviewer.reportviewer', {
                 //'abstract': true,
-                url: "/reportviewer",
+                url: "/reportviewer/{reportPath:.*}",
                 templateUrl: '/RdlReportViewer/Views/ReportViewer.html',
                 controller: 'reportViewerController'
+            }).state('rdlreportviewer.reports', {
+                url: "/reports",
+                templateUrl: '/RdlReportViewer/Views/Reports.html',
+                controller: ['$scope', 'reportingService', ($scope, reportingService: ReportingService) => {
+                    $scope.reports = [];
+                    reportingService.getReports().then((response) => {
+                        $scope.reports = response.data;
+                    });
+                }]
             });
 
         function navigate(obj, path) {
