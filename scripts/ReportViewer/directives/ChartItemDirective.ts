@@ -24,7 +24,7 @@
                             type: "category"
                         }
                     };
-                    chartModel.series = chart.data;
+                    chartModel.series = angular.copy(chart.data);
                     element.highcharts(chartModel);
                 }
 

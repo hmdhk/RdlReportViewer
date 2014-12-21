@@ -7,30 +7,28 @@ module ReportViewer.Rdl {
         public get type() {
             return "chart";
         }
-        private _seriesNames;
-        public get seriesNames() {
-            return this._seriesNames;
-        }
-
+        private _seriesNames = [];
         private _categoryNames;
-
-        public get categoryNames() {
-            return this._categoryNames;
-        }
+        private _seriesGroupingNames = [];
 
         constructor(chart: any, report: IReport) {
             super(chart, report);
             this.chart = chart;
 
-            this._seriesNames = [];
-            var chartSeries = (<any>_(chart)).navigate('ChartSeriesHierarchy.ChartMembers.ChartMember');
-            if (_.isArray(chartSeries)) {
-                _.forEach(chartSeries, (se) => {
-                    this._seriesNames.push(se['Group']['@Name']);
-                });
-            } else {
-                this._seriesNames.push(chartSeries['Group']['@Name']);
-            }
+            var chartSeriesHierarchy = _((<any>_(chart)).navigate('ChartSeriesHierarchy.ChartMembers.ChartMember')).checkArray();
+
+            _.forEach(chartSeriesHierarchy, (se) => {
+                var groupName = _(se).navigate('Group.@Name');
+                if (groupName)
+                    this._seriesGroupingNames.push(groupName);
+            });
+
+            var chartSeries = _((<any>_(chart)).navigate('ChartData.ChartSeriesCollection.ChartSeries')).checkArray();
+
+            _.forEach(chartSeries, (se) => {
+                this._seriesNames.push(se['@Name']);
+            });
+
 
             this._categoryNames = [];
             var chartCategories = (<any>_(chart)).navigate('ChartCategoryHierarchy.ChartMembers.ChartMember');
@@ -58,22 +56,38 @@ module ReportViewer.Rdl {
             var data = this.report.data[this.name];
 
             var res = [];
-            var seriesNames = this._seriesNames;
-            var categoryNames = this._categoryNames;
-            angular.forEach(seriesNames, (seriesName) => {
-                var seriesGroup = _(_(data).navigate(seriesName + '_Collection.' + seriesName)).checkArray();
-                angular.forEach(seriesGroup, (sg) => {
-                    var series = { name: sg['@Label'], data: [] };
-                    angular.forEach(categoryNames, (catName) => {
-                        var catGroup = _(sg).navigate(catName + '_Collection.' + catName);
-                        angular.forEach(catGroup, (d) => {
-                            series.data.push({ name: d['@Label'], x: d['@Label'], y: Number(d['Value']['@Y']) });
-                        });
+            if (this._seriesGroupingNames.length > 0) {
+                _.forEach(this._seriesGroupingNames, (seriesName) => {
+                    var seriesGroup = _(_(data).navigate(seriesName + '_Collection.' + seriesName)).checkArray();
+                    _.forEach(seriesGroup, (sg) => {
+                        var series = this.createSeriesFromRawData(sg);
+                        res.push(series);
                     });
+                });
+            } else {
+                _.forEach(data, (d) => {
+                    var series = this.createSeriesFromRawData(d);
                     res.push(series);
                 });
-            });
+            }
             return res;
+        }
+        private createSeriesFromRawData(chartData) {
+            var series = { name: chartData['@Label'], data: [] };
+            _.forEach(this._categoryNames, (catName) => {
+                var catGroup = _(chartData).navigate(catName + '_Collection.' + catName);
+                _.forEach(catGroup, (d) => {
+                    var y;
+                    if (_.isUndefined(d['Value'])) {
+                        y = Number(d['@Y']);
+                    }
+                    else {
+                        y = d['Value'] == null ? d['Value'] : Number(d['Value']['@Y']);
+                    }
+                    series.data.push({ name: d['@Label'], y: y });//, x: d['@Label']
+                });
+            });
+            return series;
         }
 
         public get height(): number {

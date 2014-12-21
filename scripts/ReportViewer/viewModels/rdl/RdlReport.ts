@@ -46,7 +46,29 @@
             this.$q = $q;
             this.$http = $http;
             this.report = rdlReport;
-            var items = _(this.report).navigate('Body.ReportItems');
+
+
+            var items: any = {};
+            if (_.isUndefined(this.report["Body"])) {
+                var sections = _(_(this.report).navigate('ReportSections.ReportSection')).checkArray();
+
+                _.forEach(sections, (section) => {
+                    var sectionItems = _(section).navigate('Body.ReportItems');
+                    _.forEach(sectionItems, (item, key) => {
+                        item = _(item).checkArray();
+                        if (items[key]) {
+                            items[key] = items[key].concat(item);
+                        } else {
+                            items[key] = item;
+                        }
+                    });
+                });
+            }
+            else {
+                items = _(this.report).navigate('Body.ReportItems');
+            }
+
+
             this._items = {};
             this.layout = new RdlLayout(this);
 

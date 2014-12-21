@@ -17,7 +17,7 @@
                 reportingService.getReportData($scope.reportPath, params)
                     .then((response) => {
                         report.data = response.data["Report"];
-                        $scope.$broadcast('rv.refereshData');
+                        //$scope.$broadcast('rv.refereshData');
                     });
             };
 
