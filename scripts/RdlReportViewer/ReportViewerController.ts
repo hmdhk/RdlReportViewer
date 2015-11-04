@@ -5,7 +5,7 @@
             $scope.reportPath = $stateParams.reportPath;
             reportingService.getReportDefinition($scope.reportPath).then((response: any) => {
                 $scope.reportDef = response.data;
-                $scope.report = report = new ReportViewer.Rdl.RdlReport(response.data['Report'], $q, $http);
+                $scope.report = report = new ReportViewer.Rdl.RdlReport(response.data['Report']);
             }, () => { });
 
 

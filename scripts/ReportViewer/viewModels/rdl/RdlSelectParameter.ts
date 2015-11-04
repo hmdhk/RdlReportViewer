@@ -1,7 +1,7 @@
 ﻿module ReportViewer.Rdl {
     export class RdlSelectParameter implements ISelectParameter {
         public type: string;
-        public validValues: { value: any; label: string }[];
+        public validValues: { value: any; label: string; }[];
         public defaultValues: any[];
         public multiple: boolean;
         public allowEmpty: boolean;

@@ -1,13 +1,11 @@
 ﻿module ReportViewer.Rdl {
     export class RdlReport implements IReport {
         private report: any;
-        private _items: { [name: string]: IItem }
-        private $q: ng.IQService;
-        private $http: ng.IHttpService;
-        private _data: { [name: string]: any };
+        private _items: { [name: string]: IItem; };
+        private _data: { [name: string]: any; };
         private dataChangeHandlers: Array<(data: any) => void>;
 
-        public parameters: IParameter[];
+        public parameters: IParameter[] = [];
         public layout: any;
         public get data(): any {
             return this._data;
@@ -19,7 +17,7 @@
             });
         }
 
-        public get items(): { [name: string]: IItem } {
+        public get items(): { [name: string]: IItem; } {
             return this._items;
         }
 
@@ -42,9 +40,8 @@
             return i;
         }
 
-        constructor(rdlReport: any, $q: ng.IQService, $http: ng.IHttpService) {
-            this.$q = $q;
-            this.$http = $http;
+        constructor(rdlReport: any) {
+
             this.report = rdlReport;
 
 
@@ -98,13 +95,15 @@
                 this.layout.push({ name: item.name, col: 0, row: k });
             });
 
-            this.parameters = _.map(_(_(rdlReport).navigate('ReportParameters.ReportParameter')).checkArray()
-                , (param) => {
+            var parameters = _(rdlReport).navigate('ReportParameters.ReportParameter');
+            if (!_.isUndefined(parameters)) {
+                _.forEach(_(parameters).checkArray(), (param) => {
                     if (!angular.isUndefined(param['ValidValues'])) {
-                        return new RdlSelectParameter(param);
+                        this.parameters.push(new RdlSelectParameter(param));
                     }
-                    return new RdlSelectParameter(param);
                 });
+            }
+
         }
 
     }

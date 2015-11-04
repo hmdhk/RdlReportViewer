@@ -7,7 +7,7 @@ module ReportViewer.Rdl {
         public get type() {
             return "chart";
         }
-        private _seriesNames = [];
+        private _series = [];
         private _categoryNames;
         private _seriesGroupingNames = [];
 
@@ -23,11 +23,11 @@ module ReportViewer.Rdl {
                     this._seriesGroupingNames.push(groupName);
             });
 
-            var chartSeries = _((<any>_(chart)).navigate('ChartData.ChartSeriesCollection.ChartSeries')).checkArray();
+            this._series = _((<any>_(chart)).navigate('ChartData.ChartSeriesCollection.ChartSeries')).checkArray();
 
-            _.forEach(chartSeries, (se) => {
-                this._seriesNames.push(se['@Name']);
-            });
+            //_.forEach(chartSeries, (se) => {
+            //    this._seriesNames.push(se['@Name']);
+            //});
 
 
             this._categoryNames = [];
@@ -60,20 +60,32 @@ module ReportViewer.Rdl {
                 _.forEach(this._seriesGroupingNames, (seriesName) => {
                     var seriesGroup = _(_(data).navigate(seriesName + '_Collection.' + seriesName)).checkArray();
                     _.forEach(seriesGroup, (sg) => {
-                        var series = this.createSeriesFromRawData(sg);
+                        var series = this.createSeriesFromRawData(sg, this._series[0]);
                         res.push(series);
                     });
                 });
             } else {
-                _.forEach(data, (d) => {
-                    var series = this.createSeriesFromRawData(d);
+                _.forEach(data, (d, key) => {
+                    var sd = _.find(this._series, (se) => { return se["@Name"] == key });
+                    var series = this.createSeriesFromRawData(d, sd);
                     res.push(series);
                 });
             }
             return res;
         }
-        private createSeriesFromRawData(chartData) {
-            var series = { name: chartData['@Label'], data: [] };
+        private createSeriesFromRawData(chartData, seriesDefinition= undefined) {
+            var series = { name: chartData['@Label'], data: [], type: 'column' };
+            if (!_.isUndefined(seriesDefinition)) {
+                if (!_.isUndefined(seriesDefinition['Type'])) {
+                    var type = seriesDefinition['Type'].toLowerCase();
+                    switch (type) {
+                        case "shape":
+                            type = "pie";
+                            break;
+                    }
+                    series.type = type;
+                }
+            }
             _.forEach(this._categoryNames, (catName) => {
                 var catGroup = _(chartData).navigate(catName + '_Collection.' + catName);
                 _.forEach(catGroup, (d) => {
